@@ -6,6 +6,7 @@ import Chaudiere from "./features/Chaudière/Chaudiere";
 import Controller from "./features/Controlleur/Controller";
 import { Provider } from 'react-redux';
 import { store } from './store';
+import TableauDeControle from './features/TableauDeControle/TableauDeControle';
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
             <br/>
             <Chaudiere></Chaudiere>
             <br/>
+            <TableauDeControle></TableauDeControle>
             <Controller></Controller>
             <br/>
         </div>

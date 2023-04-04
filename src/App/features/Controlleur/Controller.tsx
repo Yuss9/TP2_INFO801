@@ -12,13 +12,15 @@ export const Controller = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const setCompareTmTr = (compareTmTr: number) => {
+        const setCompareTmTr = () => {
             const resultingTemperature = temperature - temperatureRef;
             dispatch({type: 'controller/setCompareTmTr', payload: resultingTemperature});
         };
-        setCompareTmTr(compareTmTr);
+        setCompareTmTr();
         console.log("temperatureRef", temperatureRef);
     }, [dispatch,temperature, temperatureRef, compareTmTr]);
+
+
     return (
       <div>
         <h1>Controller</h1>
@@ -27,7 +29,6 @@ export const Controller = () => {
         <p> tm {temperature}</p>
         <p>la temperature courante est {compareTmTr} {compareTmTr> 0 ? ' °c superieure':' °c inferieure'}</p> 
         {compareTmTr > 0 ? <p>on ne doit pas chauffer</p> : <p>on doit chauffer</p>}
-
       </div>
     );
 };
