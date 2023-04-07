@@ -2,11 +2,13 @@ import {configureStore} from '@reduxjs/toolkit';
 import thermostatSlice from './features/Thermostat/thermostatSlice';
 import ControllerSlice from './features/Controlleur/ControllerSlice';
 import chaudiereSlice from './features/Chaudière/ChaudièreSlice';
+import TableauDeControleSlice from './features/TableauDeControle/TableauDeControleSlice';
 export const store = configureStore({
     reducer: {
         thermostat: thermostatSlice,
         controller: ControllerSlice,
-        chaudiere: chaudiereSlice  ,
+        chaudiere: chaudiereSlice,
+        tableauDeControle: TableauDeControleSlice,
     },
 })
 // Infer the `RootState` and `AppDispatch` types from the store itself
