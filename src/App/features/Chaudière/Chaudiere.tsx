@@ -30,10 +30,10 @@ const Chaudiere = () => {
     if (demandeAllumage) {
       console.log("demande en cours");
       // math random
-      const probaAllumage = 0.9;
-      if (Math.random() > probaAllumage) {
-        console.log("CHAUDIERE ALLUMEE");
-        timer = setTimeout(() => {
+      setTimeout(() => {
+        const probaAllumage = 0.9;
+        if (Math.random() > probaAllumage) {
+          console.log("CHAUDIERE ALLUMEE");
           dispatch({ type: "chaudiere/resetDemandeAllumage" });
           dispatch({ type: "chaudiere/allumer" });
           const allumage = () => {
@@ -44,11 +44,13 @@ const Chaudiere = () => {
             type: "controller/setIsErrorChaudiere",
             payload: false,
           });
-        }, 1000 * DUREE_ALLUMAGE);
-      } else {
-        console.log("CHAUDIERE ERROR ALLUMAGE");
-        timer = setTimeout(() => {
-          dispatch({ type: "controller/setChaudiereDemande", payload: false });
+        } else {
+          console.log("CHAUDIERE ERROR ALLUMAGE");
+
+          dispatch({
+            type: "controller/setChaudiereDemande",
+            payload: false,
+          });
           const erreurAllumage = () => {
             alert("Erreur allumage");
           };
@@ -61,8 +63,8 @@ const Chaudiere = () => {
           dispatch({
             type: "chaudiere/resetDemandeAllumage",
           });
-        }, 1000 * ATTENTE_ALLUMAGE + DUREE_ALLUMAGE);
-      }
+        }
+      }, 10000);
     }
     return () => {
       clearTimeout(timer as NodeJS.Timeout);
