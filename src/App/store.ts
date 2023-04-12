@@ -3,14 +3,16 @@ import thermostatSlice from './features/Thermostat/thermostatSlice';
 import ControllerSlice from './features/Controlleur/ControllerSlice';
 import chaudiereSlice from './features/Chaudière/ChaudièreSlice';
 import TableauDeControleSlice from './features/TableauDeControle/TableauDeControleSlice';
+import DisjoncteurSlice from './features/Disjoncteur/DisjoncteurSlice';
 export const store = configureStore({
-    reducer: {
-        thermostat: thermostatSlice,
-        controller: ControllerSlice,
-        chaudiere: chaudiereSlice,
-        tableauDeControle: TableauDeControleSlice,
-    },
-})
+  reducer: {
+    thermostat: thermostatSlice,
+    controller: ControllerSlice,
+    chaudiere: chaudiereSlice,
+    tableauDeControle: TableauDeControleSlice,
+    disjoncteur: DisjoncteurSlice,
+  },
+});
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}

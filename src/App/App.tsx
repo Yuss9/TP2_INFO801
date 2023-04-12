@@ -7,6 +7,7 @@ import Controller from "./features/Controlleur/Controller";
 import { Provider } from 'react-redux';
 import { store } from './store';
 import TableauDeControle from './features/TableauDeControle/TableauDeControle';
+import Disjoncteur from './features/Disjoncteur/Disjoncteur';
 
 function App() {
     return (
@@ -20,6 +21,9 @@ function App() {
             <Chaudiere></Chaudiere>
             <br/>
             <TableauDeControle></TableauDeControle>
+            <br />
+            <Disjoncteur></Disjoncteur>
+            <br />
             <Controller></Controller>
             <br/>
         </div>

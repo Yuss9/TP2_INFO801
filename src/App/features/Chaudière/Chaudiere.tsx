@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect,  } from 'react';
 import { useSelector } from 'react-redux';
 import { selectChaudiereActive, selectCompareTmTr } from '../Controlleur/ControllerSlice';
 import { useDispatch } from 'react-redux';
@@ -8,6 +8,8 @@ import { selectChaudiereAllumee, selectChaudiereDemande } from './ChaudièreSlic
 
 const Chaudiere = () => {
     const DELAI = 2;
+    const DUREE_ALLUMAGE = 8; // Mets 8 secondes a s'allumer
+    const ATTENTE_ALLUMAGE = 2;
     const compareTmTr = useSelector(selectCompareTmTr);
     const temperature = useSelector(selectTemperature);
     const chaudiereAllumée = useSelector(selectChaudiereAllumee);
@@ -18,20 +20,43 @@ const Chaudiere = () => {
     //     setIsIgnition(Math.random()>0.5)
     // },[isNormal])
     useEffect(()=>{
+        let timer:NodeJS.Timeout|null = null;
         if(demandeAllumage){
             console.log('demande en cours')
             // math random
-            const probaAllumage = 0.1;
+            const probaAllumage = 0.9;
             if (Math.random()>probaAllumage){
                 console.log('CHAUDIERE ALLUMEE')
-                dispatch({type: 'chaudiere/resetDemandeAllumage'});
-                dispatch({type: 'chaudiere/allumer'});
+                timer = setTimeout(() => {
+                    dispatch({type: 'chaudiere/resetDemandeAllumage'});
+                    dispatch({type: 'chaudiere/allumer'});
+                    const allumage = () => {
+                      alert("CHAUDIERE ALLUMEE");
+                    };
+                    allumage();
+                    dispatch({
+                      type: "controller/setIsErrorChaudiere",
+                      payload: false,
+                    });
+
+                }, 1000*DUREE_ALLUMAGE );
             }
             else{
                 console.log('CHAUDIERE ERROR ALLUMAGE');
-                dispatch({type: 'controller/setChaudiereDemande', payload: false});
+                timer = setTimeout(() => {
+                    dispatch({type: 'controller/setChaudiereDemande', payload: false});
+                   const erreurAllumage = () => { alert('Erreur allumage')};
+                   erreurAllumage();
+                   dispatch({
+                     type: "controller/setIsErrorChaudiere",
+                     payload: true,
+                   });
+                }, 1000*ATTENTE_ALLUMAGE+DUREE_ALLUMAGE);
             }
         }
+        return () => {
+            clearTimeout(timer as NodeJS.Timeout)
+        };
     },[dispatch, demandeAllumage])    
     useEffect(()=>{
         let timer:NodeJS.Timeout|null = null;
@@ -55,7 +80,7 @@ const Chaudiere = () => {
     return (
         <div>
             <h1>Chaudiere</h1>
-            {/* <p>l'etat de la chaudiere est : {compareTmTr<0 && isIgnition ? "allumée":"éteinte"} </p> */}
+            <p>l'etat de la chaudiere est : { chaudiereAllumée ? "allumée":"éteinte"} </p>
             {/* <div> compte rendu ok ? {isIgnition ? ('True'):('False')} </div> */}
         </div>
     );

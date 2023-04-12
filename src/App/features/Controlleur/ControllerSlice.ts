@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 const initialState = {
   comparaisonTmTr: 0,
   chaudiereActive: false,
+  isErrorChaudiere: false,
 };
 
 export const ControllerSlice = createSlice({
@@ -15,9 +16,13 @@ export const ControllerSlice = createSlice({
         setChaudiereActive: (state, action: PayloadAction<boolean>) => {
             state.chaudiereActive = action.payload;
         },
+        setIsErrorChaudiere: (state, action: PayloadAction<boolean>) => {
+            state.isErrorChaudiere = action.payload;
+        }
     },
-});
+}); 
 export const {setCompareTmTr,setChaudiereActive} = ControllerSlice.actions;
 export const selectChaudiereActive = (state: any) => state.controller.chaudiereActive;
 export const selectCompareTmTr = (state: any) => state.controller.comparaisonTmTr;
+export const selectIsErrorChaudiere = (state: any) => state.controller.isErrorChaudiere;
 export default ControllerSlice.reducer;
