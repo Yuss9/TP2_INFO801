@@ -22,9 +22,10 @@ const Chaudiere = () => {
   const isNormal = useSelector(selectIsNormal);
   const dispatch = useDispatch();
   const demandeAllumage = useSelector(selectChaudiereDemande);
-  // useEffect(()=>{
-  //     setIsIgnition(Math.random()>0.5)
-  // },[isNormal])
+
+
+
+
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
     if (demandeAllumage) {

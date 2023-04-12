@@ -1,12 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {};
+const initialState = {
+  horaire: {
+    heureDebut: 0,
+    heureFin: 0,
+    minuteDebut: 0,
+    minuteFin: 0,
+  },
+};
 
-const HoraireChaudiereSlice = createSlice({
+const horaireChaudiereSlice = createSlice({
   name: "horaireChaudiere",
   initialState,
-  reducers: {},
+  reducers: {
+    setHoraireChaudiere: (state, action) => {
+      //08:10-12:20 split on - and :
+      const horaire = action.payload.split(/-|:/).map((h: any) => parseInt(h));
+      console.log(horaire);
+      state.horaire.heureDebut = horaire[0];
+      state.horaire.minuteDebut = horaire[1];
+      state.horaire.heureFin = horaire[2];
+      state.horaire.minuteFin = horaire[3];
+    },
+  },
 });
 
-export const {} = HoraireChaudiereSlice.actions;
-export default HoraireChaudiereSlice.reducer;
+export const { setHoraireChaudiere } = horaireChaudiereSlice.actions;
+export const selectHoraireChaudiere = (state: any) => state.horaireChaudiere;
+export default horaireChaudiereSlice.reducer;
