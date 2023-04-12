@@ -37,7 +37,7 @@ const Chaudiere = () => {
       console.log("demande en cours");
       // math random
       setTimeout(() => {
-        const probaAllumage = 0.1;
+        const probaAllumage = 0.5;
         if (Math.random() > probaAllumage) {
           console.log("CHAUDIERE ALLUMEE");
           dispatch({ type: "chaudiere/resetDemandeAllumage" });

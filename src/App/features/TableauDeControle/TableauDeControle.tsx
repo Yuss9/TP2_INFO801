@@ -27,7 +27,6 @@ const TableauDeControle = () => {
     if (isPlanningActive) {
       console.log("je vais envoyer la demande d'allumage");
       dispatch({ type: "chaudiere/demandeAllumage", payload: true });
-      dispatch({ type: "controller/setConstantChauffe", payload: true });
     }
   };
 
@@ -49,7 +48,7 @@ const TableauDeControle = () => {
         </button>
         <br />
         <br />
-        <button onClick={resetPlanning}>
+        <button onClick={resetPlanning} disabled={isErrorChaudiere}>
           Reset le planning et la chaudiere
         </button>
       </div>
