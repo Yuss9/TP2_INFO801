@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 import {
   selectChaudiereActive,
   selectCompareTmTr,
@@ -12,6 +13,11 @@ import {
   selectChaudiereDemande,
 } from "./ChaudièreSlice";
 
+import {
+  selectPlanningTakeControl,
+  selectConstantChauffe,
+} from "../Controlleur/ControllerSlice";
+
 const Chaudiere = () => {
   const DELAI = 2;
   const DUREE_ALLUMAGE = 8; // Mets 8 secondes a s'allumer
@@ -22,9 +28,8 @@ const Chaudiere = () => {
   const isNormal = useSelector(selectIsNormal);
   const dispatch = useDispatch();
   const demandeAllumage = useSelector(selectChaudiereDemande);
-
-
-
+  const isPlanningActive = useSelector(selectPlanningTakeControl);
+  const constantChauffe = useSelector(selectConstantChauffe);
 
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
@@ -32,7 +37,7 @@ const Chaudiere = () => {
       console.log("demande en cours");
       // math random
       setTimeout(() => {
-        const probaAllumage = 0.9;
+        const probaAllumage = 0.1;
         if (Math.random() > probaAllumage) {
           console.log("CHAUDIERE ALLUMEE");
           dispatch({ type: "chaudiere/resetDemandeAllumage" });
@@ -45,6 +50,13 @@ const Chaudiere = () => {
             type: "controller/setIsErrorChaudiere",
             payload: false,
           });
+
+          if (isPlanningActive) {
+            dispatch({
+              type: "controller/setConstantChauffe",
+              payload: true,
+            });
+          }
         } else {
           console.log("CHAUDIERE ERROR ALLUMAGE");
 
@@ -73,27 +85,43 @@ const Chaudiere = () => {
   }, [dispatch, demandeAllumage]);
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
-    if (compareTmTr >= 2 || !chaudiereAllumée) {
-      console.log("chaudiere eteinte dans le uE");
-      timer = setTimeout(() => {
-        dispatch({
-          type: "thermostat/setTemperature",
-          payload: temperature - 1,
-        });
-      }, 1000 * DELAI);
-    } else {
-      // if(activateOrder) return;
+    if (constantChauffe && demandeAllumage) {
       timer = setTimeout(() => {
         dispatch({
           type: "thermostat/setTemperature",
           payload: temperature + 1,
         });
       }, 1000 * DELAI);
+    } else {
+      if ((compareTmTr >= 2 || !chaudiereAllumée) && !constantChauffe) {
+        console.log("chaudiere eteinte dans le uE");
+        timer = setTimeout(() => {
+          dispatch({
+            type: "thermostat/setTemperature",
+            payload: temperature - 1,
+          });
+        }, 1000 * DELAI);
+      } else {
+        // if(activateOrder) return;
+        timer = setTimeout(() => {
+          dispatch({
+            type: "thermostat/setTemperature",
+            payload: temperature + 1,
+          });
+        }, 1000 * DELAI);
+      }
     }
     return () => {
       clearTimeout(timer as NodeJS.Timeout);
     };
-  }, [compareTmTr, temperature, dispatch, chaudiereAllumée, isNormal]);
+  }, [
+    compareTmTr,
+    temperature,
+    dispatch,
+    chaudiereAllumée,
+    isNormal,
+    constantChauffe,
+  ]);
 
   return (
     <div>

@@ -11,6 +11,7 @@ import {
 } from "./ControllerSlice";
 import { selectChaudiereAllumee } from "../Chaudière/ChaudièreSlice";
 import { selectHoraireChaudiere } from "../HoraireChaudiere/HoraireChaudiereSlice";
+import { setConstantChauffe } from "./ControllerSlice";
 
 export const Controller = () => {
   const temperature = useSelector(selectTemperature);
@@ -19,7 +20,6 @@ export const Controller = () => {
   const dispatch = useDispatch();
   const chaudiereAllumée = useSelector(selectChaudiereAllumee);
   const currentHoraire = useSelector(selectHoraireChaudiere);
-  const isPlanningActive = useSelector(selectPlanningTakeControl);
 
   // verifier si l'horaire actuell est dans la plage horaire de chauffe
 
@@ -44,7 +44,8 @@ export const Controller = () => {
         dispatch({
           type: "controller/setPlanningTakeControl",
           payload: true,
-        })
+        });
+        
         // allume la chaudiere
       }
     } else {

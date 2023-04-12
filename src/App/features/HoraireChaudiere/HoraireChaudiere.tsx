@@ -15,7 +15,6 @@ const HoraireChaudiere = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     dispatch(setHoraireChaudiere(horaire));
-    // clean input
     setHoraire("");
   };
 

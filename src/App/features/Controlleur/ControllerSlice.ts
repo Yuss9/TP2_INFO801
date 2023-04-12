@@ -5,6 +5,7 @@ const initialState = {
   chaudiereActive: false,
   isErrorChaudiere: false,
   planningTakeControl: false,
+  constantChauffe: false,
 };
 
 export const ControllerSlice = createSlice({
@@ -23,10 +24,17 @@ export const ControllerSlice = createSlice({
     setPlanningTakeControl: (state, action: PayloadAction<boolean>) => {
       state.planningTakeControl = action.payload;
     },
+    setConstantChauffe: (state, action: PayloadAction<boolean>) => {
+      state.constantChauffe = action.payload;
+    },
   },
 });
-export const { setCompareTmTr, setChaudiereActive, setPlanningTakeControl } =
-  ControllerSlice.actions;
+export const {
+  setCompareTmTr,
+  setChaudiereActive,
+  setPlanningTakeControl,
+  setConstantChauffe,
+} = ControllerSlice.actions;
 export const selectChaudiereActive = (state: any) =>
   state.controller.chaudiereActive;
 export const selectCompareTmTr = (state: any) =>
@@ -35,4 +43,6 @@ export const selectIsErrorChaudiere = (state: any) =>
   state.controller.isErrorChaudiere;
 export const selectPlanningTakeControl = (state: any) =>
   state.controller.planningTakeControl;
+export const selectConstantChauffe = (state: any) =>
+  state.controller.constantChauffe;
 export default ControllerSlice.reducer;
