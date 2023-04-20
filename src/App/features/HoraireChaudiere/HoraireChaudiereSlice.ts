@@ -22,9 +22,17 @@ const horaireChaudiereSlice = createSlice({
       state.horaire.heureFin = horaire[2];
       state.horaire.minuteFin = horaire[3];
     },
+
+    removeChaudierePlanning: (state, action) => {
+      state.horaire.heureDebut = 0;
+      state.horaire.minuteDebut = 0;
+      state.horaire.heureFin = 0;
+      state.horaire.minuteFin = 0;
+    },
   },
 });
 
 export const { setHoraireChaudiere } = horaireChaudiereSlice.actions;
+export const { removeChaudierePlanning } = horaireChaudiereSlice.actions;
 export const selectHoraireChaudiere = (state: any) => state.horaireChaudiere;
 export default horaireChaudiereSlice.reducer;

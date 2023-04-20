@@ -36,8 +36,25 @@ export const Controller = () => {
       if (heure === heureDebut && minute < minuteDebut) {
         // allume pas la chaudiere
         console.log("le planning n'est pas encore actif");
+        dispatch({
+          type: "controller/setPlanningTakeControl",
+          payload: false,
+        });
+        dispatch({
+          type: "controller/setConstantChauffe",
+          payload: false,
+        });
       } else if (heure === heureFin && minute > minuteFin) {
         console.log("le planning n'est plus actif");
+        dispatch({
+          type: "controller/setPlanningTakeControl",
+          payload: false,
+        });
+        dispatch({
+          type: "controller/setConstantChauffe",
+          payload: false,
+        });
+
         // allume pas la chaudiere
       } else {
         console.log("le planning est actif");
@@ -45,11 +62,20 @@ export const Controller = () => {
           type: "controller/setPlanningTakeControl",
           payload: true,
         });
-        
+
         // allume la chaudiere
       }
     } else {
       console.log("le planning n'est pas actif");
+      dispatch({
+        type: "controller/setPlanningTakeControl",
+        payload: false,
+      });
+      dispatch({
+        type: "controller/setConstantChauffe",
+        payload: false,
+      });
+
       // allume pas la chaudiere
     }
   }, [currentHoraire]);

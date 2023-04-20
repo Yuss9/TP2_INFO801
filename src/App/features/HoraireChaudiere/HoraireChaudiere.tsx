@@ -13,6 +13,11 @@ const HoraireChaudiere = () => {
   const [horaire, setHoraire] = useState("");
 
   const handleSubmit = (e: any) => {
+    if (horaire === "") {
+      alert("Veuillez entrer un horaire");
+      e.preventDefault();
+      return;
+    }
     e.preventDefault();
     dispatch(setHoraireChaudiere(horaire));
     setHoraire("");
@@ -30,7 +35,12 @@ const HoraireChaudiere = () => {
           </p>
         </div>
       ) : (
-        ""
+        <div>
+          <p>
+            Aucune plage horaire n'est enregistrée. Veuillez en entrer une dans
+            le formulaire ci-dessous.
+          </p>
+        </div>
       )}
 
       <form onSubmit={handleSubmit}>
