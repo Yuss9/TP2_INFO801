@@ -21,6 +21,9 @@ export const Controller = () => {
   const chaudiereAllumée = useSelector(selectChaudiereAllumee);
   const currentHoraire = useSelector(selectHoraireChaudiere);
 
+  // secondes actuelle
+  const date = new Date();
+  const secondes = date.getSeconds();
   // verifier si l'horaire actuell est dans la plage horaire de chauffe
 
   useEffect(() => {
@@ -31,6 +34,8 @@ export const Controller = () => {
     const heureFin = currentHoraire.horaire.heureFin;
     const minuteDebut = currentHoraire.horaire.minuteDebut;
     const minuteFin = currentHoraire.horaire.minuteFin;
+
+    console.log("je suis dedans");
 
     if (heure >= heureDebut && heure <= heureFin) {
       if (heure === heureDebut && minute < minuteDebut) {
@@ -63,6 +68,18 @@ export const Controller = () => {
           payload: true,
         });
 
+        if (chaudiereAllumée) {
+          dispatch({
+            type: "controller/setConstantChauffe",
+            payload: true,
+          });
+        } else {
+          dispatch({
+            type: "controller/setConstantChauffe",
+            payload: false,
+          });
+        }
+
         // allume la chaudiere
       }
     } else {
@@ -78,7 +95,7 @@ export const Controller = () => {
 
       // allume pas la chaudiere
     }
-  }, [currentHoraire]);
+  }, [currentHoraire, secondes]);
 
   useEffect(() => {
     const setCompareTmTr = () => {
