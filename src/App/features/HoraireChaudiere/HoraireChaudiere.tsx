@@ -48,6 +48,7 @@ const HoraireChaudiere = () => {
         <input
           type="text"
           id="horaire"
+          placeholder="Ex : 18:10-19:30 "
           value={horaire}
           onChange={(event) => setHoraire(event.target.value)}
         />
